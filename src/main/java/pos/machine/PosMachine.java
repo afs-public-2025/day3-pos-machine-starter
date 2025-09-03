@@ -9,7 +9,28 @@ public class PosMachine {
     public String printReceipt(List<String> barcodes) {
         List<ReceiptItem> receiptItems = decodeToItems(barcodes);
         Receipt receipt = calculateCost(receiptItems);
+        String receiptString = renderReceipt(receipt);
         return null;
+    }
+
+    private String renderReceipt(Receipt receipt) {
+        String itemsReceipt = generateItemsReceipt(receipt);
+
+        return null;
+    }
+
+    private String generateItemsReceipt(Receipt receipt) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("***<store earning no money>Receipt***\n");
+        for (ReceiptItem item : receipt.getReceiptItems()) {
+            sb.append(String.format("Name: %s, Quantity: %d, Unit price: %d (yuan), Subtotal: %d (yuan)\n",
+                    item.getName(),
+                    item.getQuantity(),
+                    item.getUnitPrice(),
+                    item.getSubTotal()));
+        }
+        sb.append("----------------------\n");
+        return sb.toString();
     }
 
     private Receipt calculateCost(List<ReceiptItem> receiptItems) {

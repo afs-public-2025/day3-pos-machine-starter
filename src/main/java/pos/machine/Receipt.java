@@ -10,4 +10,12 @@ public class Receipt {
         this.totalPrice = totalPrice;
         this.receiptItems = receiptItems;
     }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public List<ReceiptItem> getReceiptItems() {
+        return receiptItems;
+    }
 }
