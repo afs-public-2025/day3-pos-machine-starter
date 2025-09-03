@@ -30,4 +30,8 @@ public class PosMachine {
         }
         return items;
     }
+    private Integer caculateSubtotalPrice(Item item,Integer quantity){
+        return item.getPrice() * quantity;
+    }
+
 }
