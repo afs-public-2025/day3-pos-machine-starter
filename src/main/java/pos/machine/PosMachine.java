@@ -46,16 +46,22 @@ public class PosMachine {
         bill.append("***<store earning no money>Receipt***\n");
         int total = 0;
         for(ItemList itemList : itemLists) {
-            bill.append("Name: ").append(itemList.getName())
-                    .append(", Quantity: ").append(itemList.getCount())
-                    .append(", Unit price: ").append(itemList.getPrice())
-                    .append(" (yuan), Subtotal: ").append(itemList.getSubtotal())
-                    .append(" (yuan)\n");
+            bill.append(buildEachBill(itemList));
             total += itemList.getSubtotal();
         }
         bill.append("----------------------\n")
                 .append("Total: ").append(total).append(" (yuan)\n")
                 .append("**********************");
         return bill.toString();
+    }
+
+    public String buildEachBill(ItemList itemList) {
+        StringBuilder eachBill = new StringBuilder();
+        eachBill.append("Name: ").append(itemList.getName())
+                .append(", Quantity: ").append(itemList.getCount())
+                .append(", Unit price: ").append(itemList.getPrice())
+                .append(" (yuan), Subtotal: ").append(itemList.getSubtotal())
+                .append(" (yuan)\n");
+        return eachBill.toString();
     }
 }
