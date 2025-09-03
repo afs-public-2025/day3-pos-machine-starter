@@ -29,4 +29,8 @@ public class PosMachine {
                 .findFirst()
                 .orElse(null);
     }
+    
+    private long calculateSubtotal(Item item, long quantity) {
+        return quantity * item.getPrice();
+    }
 }
