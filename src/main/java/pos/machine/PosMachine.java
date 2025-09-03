@@ -7,6 +7,7 @@ public class PosMachine {
     public String printReceipt(List<String> barcodes) {
         List<ItemList> itemLists = new ArrayList<>();
         countItems(barcodes, itemLists);
+        calculatePrice(itemLists);
         return null;
     }
 
@@ -33,5 +34,12 @@ public class PosMachine {
             }
         }
         System.out.println(itemLists.size());
+    }
+
+    public void calculatePrice(List<ItemList> itemLists) {
+        for(ItemList itemList : itemLists) {
+            itemList.setSubtotal(itemList.getPrice() * itemList.getCount());
+            System.out.println(itemList.getSubtotal());
+        }
     }
 }
