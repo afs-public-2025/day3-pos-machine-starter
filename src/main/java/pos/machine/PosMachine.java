@@ -14,6 +14,8 @@ public class PosMachine {
         // 获取收据列表
         List<ReceiptItem> receiptItems = getReceiptItems(countedItems, allItems);
 
+        //
+
         return null;
     }
 
@@ -49,5 +51,14 @@ public class PosMachine {
                     return null;
                 }).collect(Collectors.toList());
     }
+
+    private int calculateTotal(List<ReceiptItem> receiptItems) {
+        return receiptItems.stream()
+                .mapToInt(ReceiptItem::getSubtotal)
+                .sum();
+    }
+
+
+
 
 }
