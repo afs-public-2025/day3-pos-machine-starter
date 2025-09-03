@@ -33,7 +33,24 @@ public class PosMachine {
     private long calculateSubtotal(Item item, long quantity) {
         return quantity * item.getPrice();
     }
-
+    
+    private long generateItemsContent(StringBuilder receipt, Map<String, Long> barcodeQuantities, List<Item> allItems) {
+        long totalPrice = 0;
+        
+        for (Map.Entry<String, Long> entry : barcodeQuantities.entrySet()) {
+            String barcode = entry.getKey();
+            Long quantity = entry.getValue();
+            
+            Item item = findItemByBarcode(barcode, allItems);
+            if (item != null) {
+                long subtotal = calculateSubtotal(item, quantity);
+                totalPrice += subtotal;
+                receipt.append(generateItemLine(item, quantity, subtotal));
+            }
+        }
+        
+        return totalPrice;
+    }
     
     private String generateItemLine(Item item, long quantity, long subtotal) {
         return String.format("Name: %s, Quantity: %d, Unit price: %d (yuan), Subtotal: %d (yuan)%n",
