@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class PosMachineService {
-    public Map<String, ReceiptItem> buildReceiptItemMap(List<String> barcodes){
+    public Map<String, ReceiptItem> createReceiptItemsFromBarcodes(List<String> barcodes){
         Map<String, Item> itemMap = getItemMapByBarcodes(barcodes);
         isItemExist(itemMap,barcodes);
         return buildReceiptItemMap(itemMap, barcodes);
