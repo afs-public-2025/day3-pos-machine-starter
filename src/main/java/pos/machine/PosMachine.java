@@ -7,7 +7,13 @@ import java.util.List;
 public class PosMachine {
     public String printReceipt(List<String> barcodes) {
 
-        return null;
+        Map<String, Integer> barcodeCountMap=countBarcodes(barcodes);
+        List<Item> allItems=ItemsLoader.loadAllItems();
+        List<ItemInformation> itemsInformation=getItemsInformation(barcodeCountMap,allItems);
+        calculateSubtotal(itemsInformation);
+        int total=calculateTotal(itemsInformation);
+        String receipt=generateReceipt(itemsInformation,total);
+        return receipt;
 
     }
     private Map<String , Integer> countBarcodes(List<String> barcodes){
