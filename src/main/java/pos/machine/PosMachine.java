@@ -4,9 +4,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class PosMachine {
-    private Set<String> uniqueBarcodes = new HashSet<>();
-    private Map<String, String> barcodeToName = new HashMap<>();
-    private Map<String, Integer> barcodeToUnitPrice = new HashMap<>();
+    private final Set<String> uniqueBarcodes = new HashSet<>();
+    private final Map<String, String> barcodeToName = new HashMap<>();
+    private final Map<String, Integer> barcodeToUnitPrice = new HashMap<>();
     private int total;
 
     PosMachine() {
@@ -22,7 +22,7 @@ public class PosMachine {
     }
 
     private List<String> validBarcodes(List<String> barcodes) {
-        return barcodes.stream().filter(barcode -> uniqueBarcodes.contains(barcode)).collect(Collectors.toList());
+        return barcodes.stream().filter(uniqueBarcodes::contains).collect(Collectors.toList());
     }
 
     private Map<String, Integer> countItems(List<String> barcodes) {
@@ -75,13 +75,3 @@ public class PosMachine {
         return stringBuilder.toString();
     }
 }
-
-/*
-***<store earning no money>Receipt***
-Name: Coca-Cola, Quantity: 4, Unit price: 3 (yuan), Subtotal: 12 (yuan)
-Name: Sprite, Quantity: 2, Unit price: 3 (yuan), Subtotal: 6 (yuan)
-Name: Battery, Quantity: 3, Unit price: 2 (yuan), Subtotal: 6 (yuan)
-----------------------
-Total: 24 (yuan)
-**********************
- */
