@@ -7,7 +7,10 @@ import java.util.Map;
 
 public class PosMachine {
     public String printReceipt(List<String> barcodes) {
-        return null;
+        List<Item> items = ItemsLoader.loadAllItems();
+        Map<String,Integer> barcodesAndQuantity = getItemsQuantity(barcodes);
+        List<ReceiptItem> receiptItemsDetails = generateReceiptItemDetails(items,barcodesAndQuantity);
+        return generateOutput(receiptItemsDetails);
     }
     private Map<String,Integer> getItemsQuantity(List<String> barcodes){
         Map<String,Integer> itemsQuantity = new HashMap<String,Integer>();
