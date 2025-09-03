@@ -1,9 +1,6 @@
 package pos.machine;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PosMachine {
     public String printReceipt(List<String> barcodes) {
@@ -13,7 +10,7 @@ public class PosMachine {
         return generateOutput(receiptItemsDetails);
     }
     private Map<String,Integer> getItemsQuantity(List<String> barcodes){
-        Map<String,Integer> itemsQuantity = new HashMap<String,Integer>();
+        Map<String,Integer> itemsQuantity = new LinkedHashMap<String,Integer>();
         barcodes.forEach(barcode->{
             if(itemsQuantity.containsKey(barcode)){
                 itemsQuantity.put(barcode,itemsQuantity.get(barcode)+1);
