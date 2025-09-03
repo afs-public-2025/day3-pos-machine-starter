@@ -43,4 +43,8 @@ public class PosMachine {
     private String generateReceiptHeader() {
         return "***<store earning no money>Receipt***\n";
     }
+    
+    private String generateReceiptFooter(long totalPrice) {
+        return String.format("----------------------%nTotal: %d (yuan)%n**********************", totalPrice);
+    }
 }
