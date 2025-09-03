@@ -37,6 +37,29 @@ public class PosMachine {
                 .findFirst()
                 .orElse(null);
     }
+
+    public String transformOccurenceMapToReceipt(Map<String, Integer> occurrenceMap) {
+        StringBuilder receipt = new StringBuilder("***<store earning no money>Receipt***\n");
+        int total = 0;
+
+        for (Map.Entry<String, Integer> entry : occurrenceMap.entrySet()) {
+            String barcode = entry.getKey();
+            int quantity = entry.getValue();
+            Item item = getItemByBarcode(barcode);
+
+            if (item != null) {
+                int subtotal = getSubtotal(item, quantity);
+                total += subtotal;
+                receipt.append(getItemDisplayLine(item, quantity, subtotal));
+            }
+        }
+
+        receipt.append("----------------------\n");
+        receipt.append(String.format("Total: %d (yuan)\n", total));
+        receipt.append("**********************");
+        return receipt.toString();
+    }
+
     public String printReceipt(List<String> barcodes) {
         return null;
     }
