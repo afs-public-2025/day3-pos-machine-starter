@@ -14,9 +14,11 @@ public class PosMachine {
         // 获取收据列表
         List<ReceiptItem> receiptItems = getReceiptItems(countedItems, allItems);
 
-        //
+        // 计算商品总价
+        int total = calculateTotal(receiptItems);
 
-        return null;
+        // 转换收据列表为字符串
+        return generateReceipt(receiptItems, total);
     }
 
     private Map<String, Integer> countItems(List<String> barcodes) {
@@ -45,7 +47,7 @@ public class PosMachine {
                     Integer count = e.getValue();
                     Item item = findItemByBarcode(barcode, allItems);
                     if (Objects.nonNull(item)) {
-                        Integer totalPrice = item.getPrice() * count;
+                        int totalPrice = item.getPrice() * count;
                         return new ReceiptItem(item.getName(), count, item.getPrice(), totalPrice);
                     }
                     return null;
@@ -59,6 +61,16 @@ public class PosMachine {
     }
 
 
-
+    private String generateReceipt(List<ReceiptItem> receiptItems, int total) {
+        StringBuffer receipt = new StringBuffer();
+        receipt.append("***<store earning no money>Receipt***\n");
+        receiptItems.forEach(item -> receipt.append(String.format(
+                "Name: %s, Quantity: %d, Unit price: %d (yuan), Subtotal: %d (yuan)\n",
+                item.getName(), item.getQuantity(), item.getUnitPrice(), item.getSubtotal()
+        )));
+        receipt.append("----------------------\n").append(String.format("Total: %d (yuan)\n", total))
+                .append("**********************\n");
+        return receipt.toString();
+    }
 
 }
