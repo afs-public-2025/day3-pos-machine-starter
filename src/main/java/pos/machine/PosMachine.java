@@ -21,6 +21,13 @@ public class PosMachine {
         }
         return occurrenceMap;
     }
+
+    public Item getItemByBarcode(String barcode) {
+        return itemList.stream()
+                .filter(item -> item.getBarcode().equals(barcode))
+                .findFirst()
+                .orElse(null);
+    }
     public String printReceipt(List<String> barcodes) {
         return null;
     }
