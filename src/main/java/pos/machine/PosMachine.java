@@ -34,7 +34,13 @@ public class PosMachine {
     }
 
     private static Map<String, Item> loadItems() {
-        return null;
+        List<Item> itemsList = ItemsLoader.loadAllItems();
+        Map<String, Item> itemsMap = new HashMap<>();
+
+        for (Item item : itemsList) {
+            itemsMap.put(item.getBarcode(), item);
+        }
+        return itemsMap;
     }
 
 }
