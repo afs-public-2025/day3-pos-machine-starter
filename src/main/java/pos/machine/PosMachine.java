@@ -44,7 +44,8 @@ public class PosMachine {
     }
 
     private String printReceiptEntry(Item item, int occurrence) {
-        return null;
+        return String.format("Name: %s, Quantity: %d, Unit price: %d (yuan), Subtotal: %d (yuan)",
+                item.getName(), occurrence, item.getPrice(), calculateSubtotalAmount(item, occurrence));
     }
 
     private int calculateSubtotalAmount(Item item, int occurrence) {
