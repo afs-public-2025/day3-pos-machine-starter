@@ -1,17 +1,18 @@
 package pos.machine;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class PosMachine {
     public String printReceipt(List<String> barcodes) {
-        // 加载所有商品
+        // 从DB加载所有商品
         List<Item> allItems = ItemsLoader.loadAllItems();
 
-        // 计算所有商品个数
+        // 所有商品计数
         Map<String, Integer> countedItems = countItems(barcodes);
+
+        // 获取收据列表
+        List<ReceiptItem> receiptItems = getReceiptItems(countedItems, allItems);
 
         return null;
     }
@@ -30,6 +31,23 @@ public class PosMachine {
                 .filter(item -> barcode.equals(item.getBarcode()))
                 .findFirst()
                 .orElse(null);
+    }
+
+    /*
+        Build ReceiptItem List by totalPrice
+     */
+    private List<ReceiptItem> getReceiptItems(Map<String, Integer> countItems, List<Item> allItems) {
+        return countItems.entrySet().stream()
+                .map(e -> {
+                    String barcode = e.getKey();
+                    Integer count = e.getValue();
+                    Item item = findItemByBarcode(barcode, allItems);
+                    if (Objects.nonNull(item)) {
+                        Integer totalPrice = item.getPrice() * count;
+                        return new ReceiptItem(item.getName(), count, item.getPrice(), totalPrice);
+                    }
+                    return null;
+                }).collect(Collectors.toList());
     }
 
 }
