@@ -28,15 +28,25 @@ public class PosMachine {
     }
 
     private List<String> validBarcodes(List<String> barcodes) {
+        List<String> illegalBarcodes = barcodes.stream().filter(barcode -> !uniqueBarcodes.contains(barcode))
+                .collect(Collectors.toList());
+        if (!illegalBarcodes.isEmpty()) {
+            throw new IllegalArgumentException("Illegal barcodes: " + String.join(", ",illegalBarcodes));
+        }
         return barcodes.stream().filter(uniqueBarcodes::contains).collect(Collectors.toList());
     }
 
     private Map<String, Integer> countItems(List<String> barcodes) {
         // Use treemap to preserve order
         Map<String, Integer> itemCount = new TreeMap<>();
-        List<String> validBarcodeList = validBarcodes(barcodes);
-        for (String barcode: validBarcodeList) {
-            itemCount.put(barcode, itemCount.getOrDefault(barcode, 0)+1);
+        try {
+            List<String> validBarcodeList = validBarcodes(barcodes);
+            for (String barcode: validBarcodeList) {
+                itemCount.put(barcode, itemCount.getOrDefault(barcode, 0)+1);
+            }
+        }
+        catch (IllegalArgumentException error) {
+            System.out.println("Exception occurred: " + error);
         }
         return itemCount;
     }
@@ -70,10 +80,8 @@ public class PosMachine {
 
     private String createReceiptBody(Map<String, Integer> itemCount) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (String barcode: itemCount.keySet()) {
-            int quantity = itemCount.get(barcode);
-            stringBuilder.append(createReceiptEntry(barcode, quantity));
-        }
+        itemCount.forEach((barcode, quantity) ->
+                stringBuilder.append(createReceiptEntry(barcode, quantity)));
         return stringBuilder.toString();
     }
 
@@ -89,11 +97,21 @@ public class PosMachine {
 
     public String printReceipt(List<String> barcodes) {
         Map<String, Integer> itemCount = countItems(barcodes);
+        if (itemCount.isEmpty()) {
+            System.out.println("Empty barcode list, no receipt can be provided.");
+            return "";
+        }
         // Construct receipt
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(createReceiptHeader());
-        stringBuilder.append(createReceiptBody(itemCount));
-        stringBuilder.append(createReceiptSummary());
+        String header = createReceiptHeader();
+        String body = createReceiptBody(itemCount);
+        String summary = createReceiptSummary();
+        System.out.println(header);
+        System.out.println(body);
+        System.out.println(summary);
+        stringBuilder.append(header);
+        stringBuilder.append(body);
+        stringBuilder.append(summary);
         // Reset POS machine total after creating receipt
         this.total = 0;
         return stringBuilder.toString();
