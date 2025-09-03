@@ -6,7 +6,19 @@ import java.util.List;
 import java.util.Map;
 
 public class PosMachine {
+    public static void main(String[] args) {
+        List<String> barcodes=List.of("ITEM000000",
+                "ITEM000000",
+                "ITEM000000",
+                "ITEM000000",
+                "ITEM000001",
+                "ITEM000001",
+                "ITEM000004",
+                "ITEM000004",
+                "ITEM000004");
+        System.out.println(printReceipt(barcodes));
 
+    }
     public static String printReceipt(List<String> barcodes) {
         Map<String, Item> itemsMap = loadItems();
         Map<String, Integer> itemCount = countItems(barcodes);
