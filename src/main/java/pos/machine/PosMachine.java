@@ -4,12 +4,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class PosMachine {
+    private List<Item> allItems = ItemsLoader.loadAllItems();
     public String printReceipt(List<String> barcodes) {
         return null;
     }
-    private List<Item> allItems = ItemsLoader.loadAllItems();
     private Map<String,Integer> countItemQuantity(List<String> barcodes){
-        Map<String, Integer> quantityMap = new HashMap<>();
+        Map<String, Integer> quantityMap = new LinkedHashMap<>();
         for (String barcode : barcodes) {
             quantityMap.put(barcode, quantityMap.getOrDefault(barcode, 0) + 1);
         }
@@ -30,13 +30,28 @@ public class PosMachine {
         }
         return items;
     }
-    private Integer calculateSubtotalPrice(Item item,int quantity){
+    private int calculateSubtotalPrice(Item item,int quantity){
         return item.getPrice() * quantity;
     }
 
     private String generateReceiptLine(Item item,int quantity,int subtotal){
         return String.format("Name: %s, Quantity: %d, Unit price: %d (yuan), Subtotal: %d (yuan)",
                 item.getName(), quantity, item.getPrice(), subtotal);
+    }
+    private String generateReceipt(Map<String,Integer> quantityMap,List<Item> items){
+        StringBuilder receipt = new StringBuilder();
+        int total = 0;
+        receipt.append("***<store earning no money>Receipt***\n");
+        for(Item item:items){
+            int itemQuantity = quantityMap.get(item.getBarcode());
+            int subtotal = calculateSubtotalPrice(item,itemQuantity);
+            total += subtotal;
+            receipt.append(generateReceiptLine(item,itemQuantity,subtotal) + "\n");
+        }
+        receipt.append("----------------------\n");
+        receipt.append(String.format("Total: %d (yuan)\n",total));
+        receipt.append("**********************");
+        return receipt.toString();
     }
 
 }
