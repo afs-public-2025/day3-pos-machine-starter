@@ -2,6 +2,7 @@ package pos.machine;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -17,7 +18,14 @@ public class PosMachine {
     }
 
     private boolean isAllItemsExist(Map<String, Integer> barcodeOccurrence) {
-        return false;
+        List<Item> itemRecords = ItemsLoader.loadAllItems();
+
+        Set<String> existingBarcodes = itemRecords.stream()
+                .map(Item::getBarcode)
+                .collect(Collectors.toSet());
+
+        return barcodeOccurrence.keySet().stream()
+                .allMatch(existingBarcodes::contains);
     }
 
     private Item[] retrieveItemsInfo(Map<String, Integer> barcodeOccurrence) {
