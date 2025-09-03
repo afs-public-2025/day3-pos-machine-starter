@@ -30,7 +30,12 @@ public class PosMachine {
     }
 
     private static Map<String, Integer> countItems(List<String> barcodes) {
-        return null;
+        Map<String, Integer> itemCount = new HashMap<>();
+
+        for (String barcode : barcodes) {
+            itemCount.put(barcode, itemCount.getOrDefault(barcode, 0) + 1);
+        }
+        return itemCount;
     }
 
     private static Map<String, Item> loadItems() {
