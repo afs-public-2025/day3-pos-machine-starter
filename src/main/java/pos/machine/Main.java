@@ -12,9 +12,9 @@ public class Main {
             "ITEM000001", "ITEM000001",  // 2个雪碧
             "ITEM000004", "ITEM000004", "ITEM000004"  // 3个电池
         };
-
+        System.out.println("收据详情：\n");
+        System.out.println("***<store earning no money>Receipt***");
         String receipt = posMachine.printReceipt(barcodes);
-        System.out.println("================================");
         System.out.println(receipt);
         System.out.println("================================");
 

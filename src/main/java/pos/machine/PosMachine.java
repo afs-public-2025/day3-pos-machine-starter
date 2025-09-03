@@ -20,14 +20,14 @@ public class PosMachine {
                 int quantity = barcodeCount.get(barcode);
                 int subtotal = item.getPrice() * quantity;
                 total += subtotal;
-
                 receipt.append(formatReceiptItem(item, quantity, subtotal));
                 receipt.append("\n");
             } catch (ItemNotFoundException e) {
                 System.err.println(e.getMessage());
             }
         }
-        receipt.append("Total: ").append(total).append(" (yuan)\n");
+        receipt.append("----------------------\n");
+        receipt.append("Total: ").append(total).append(" (yuan)");
         return receipt.toString();
     }
 
