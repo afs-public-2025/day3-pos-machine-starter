@@ -48,10 +48,18 @@ public class PosMachine {
     }
 
     public String getReceiptEntry(Item item, int Quantity) {
-//                "Name: Coca-Cola, Quantity: 4, Unit price: 3 (yuan), Subtotal: 12 (yuan)\n" +
-//                "Name: Sprite, Quantity: 2, Unit price: 3 (yuan), Subtotal: 6 (yuan)\n" +
-//                "Name: Battery, Quantity: 3, Unit price: 2 (yuan), Subtotal: 6 (yuan)\n" +;
-        String.format("Name: %s, Quantity: %d, Unit price: %d (yuan), Subtotal: %d (yuan)\n");
-        return "";
+        return String.format("Name: %s, Quantity: %d, Unit price: %d (yuan), Subtotal: %d (yuan)\n", item.getName(), Quantity, item.getPrice(), getSubtotal(item, Quantity));
+    }
+
+    public int getSubtotal(Item item, int Quantity) {
+        return item.getPrice()*Quantity;
+    }
+
+    public int getTotal(Map<String, Integer> itemQuantity, List<Item> items) {
+        int total = 0;
+        for (Item item: items) {
+            total += getSubtotal(item, itemQuantity.get(item.getName()));
+        }
+        return total;
     }
 }
