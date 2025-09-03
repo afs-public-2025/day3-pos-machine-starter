@@ -47,6 +47,7 @@ public class PosMachine {
     private String buildReceipt(Map<String, Integer> barcodeOccurrence, List<Item> items) {
         StringBuilder receipt = new StringBuilder();
         receipt.append("***<store earning no money>Receipt***").append('\n');
+        // Build receipt entry for each type of items
         for(String barcode: barcodeOccurrence.keySet()) {
             Optional<Item> optionalBarcodeMatchingItem = items.stream()
                     .filter(item -> item.getBarcode().equals(barcode))
@@ -58,6 +59,7 @@ public class PosMachine {
             receipt.append(buildReceiptEntry(barcodeMatchingItem, barcodeOccurrence.get(barcode)));
             receipt.append('\n');
         }
+        // Get the total amount for the receipt
         receipt.append("----------------------").append("\n");
         receipt.append(String.format("Total: %d (yuan)", calculateTotalAmount(barcodeOccurrence, items))).append('\n');
         receipt.append("**********************");
