@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 public class PosMachine {
     private List<Item> allItems = ItemsLoader.loadAllItems();
     public String printReceipt(List<String> barcodes) {
-        return null;
+        Map<String,Integer> quantityMap = countItemQuantity(barcodes);
+        List<Item> items = findItemsByBarcodes(quantityMap.keySet());
+        return generateReceipt(quantityMap,items);
     }
     private Map<String,Integer> countItemQuantity(List<String> barcodes){
         Map<String, Integer> quantityMap = new LinkedHashMap<>();
