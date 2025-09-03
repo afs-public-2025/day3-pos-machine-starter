@@ -27,7 +27,16 @@ public class PosMachine {
     private Map<String,Item> getRecordsFromDB(Map<String,Integer> barcodeMap){
         return null;
     }
+    private Item getRecordFromDB(String barcode){
+        return null;
+    }
     private String buildReceipt(Map<String,Integer> barcodeMap,Map<String,Item> recordMap){
+        return null;
+    }
+    private String buildReceiptLine(Map<String,Integer> barcodeMap,Map<String,Item> recordMap){
+        return null;
+    }
+    private String calTotalPriceAndBuildTotalLine(Map<String,Integer> barcodeMap,Map<String,Item> recordMap){
         return null;
     }
 }
