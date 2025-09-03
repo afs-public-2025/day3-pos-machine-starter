@@ -14,4 +14,12 @@ public class PosMachine {
         return ItemsLoader.loadAllItems();
     }
     
+    private Map<String, Long> countBarcodes(List<String> barcodes) {
+        return barcodes.stream()
+                .collect(Collectors.groupingBy(
+                    barcode -> barcode, 
+                    LinkedHashMap::new,
+                    Collectors.counting()
+                ));
+    }
 }
