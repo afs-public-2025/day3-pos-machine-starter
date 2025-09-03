@@ -48,7 +48,7 @@ public class PosMachine {
     }
 
     private int calculateSubtotalAmount(Item item, int occurrence) {
-        return -1;
+        return item.getPrice() * occurrence;
     }
 
     private int calculateTotalAmount(Map<String, Integer> barcodeOccurrence, Item[] items) {
