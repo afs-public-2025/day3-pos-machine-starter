@@ -41,10 +41,44 @@ public class PosMachine {
     }
 
     private String createReceiptEntry(String barcode, int quantity) {
-        return "";
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Name: ");
+        stringBuilder.append(barcodeToName.get(barcode));
+        stringBuilder.append(", Quantity: ");
+        stringBuilder.append(quantity);
+        stringBuilder.append(", Unit price: ");
+        int unitPrice = barcodeToUnitPrice.get(barcode);
+        stringBuilder.append(unitPrice);
+        stringBuilder.append(" (yuan), Subtotal: ");
+        stringBuilder.append(computeSubtotal(unitPrice, quantity));
+        stringBuilder.append(" (yuan)\n");
+        return stringBuilder.toString();
     }
 
     public String printReceipt(List<String> barcodes) {
-        return "";
+        Map<String, Integer> itemCount = countItems(barcodes);
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("***<store earning no money>Receipt***\n");
+        for (String barcode: itemCount.keySet()) {
+            int quantity = itemCount.get(barcode);
+            stringBuilder.append(createReceiptEntry(barcode, quantity));
+        }
+        stringBuilder.append("----------------------");
+        stringBuilder.append("Total: ");
+        stringBuilder.append(this.total);
+        stringBuilder.append(" (yuan)\n");
+        stringBuilder.append("**********************");
+        return stringBuilder.toString();
     }
 }
+
+/*
+***<store earning no money>Receipt***
+Name: Coca-Cola, Quantity: 4, Unit price: 3 (yuan), Subtotal: 12 (yuan)
+Name: Sprite, Quantity: 2, Unit price: 3 (yuan), Subtotal: 6 (yuan)
+Name: Battery, Quantity: 3, Unit price: 2 (yuan), Subtotal: 6 (yuan)
+----------------------
+Total: 24 (yuan)
+**********************
+ */
