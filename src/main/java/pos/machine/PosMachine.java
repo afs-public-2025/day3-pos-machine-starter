@@ -10,14 +10,20 @@ public class PosMachine {
     private int total;
 
     PosMachine() {
-        for (Item item: ItemsLoader.loadAllItems()) {
-            String barcode = item.getBarcode();
-            String name = item.getName();
-            int price = item.getPrice();
-            uniqueBarcodes.add(barcode);
-            barcodeToName.put(barcode, name);
-            barcodeToUnitPrice.put(barcode, price);
-        }
+        List<Item> items = ItemsLoader.loadAllItems();
+        uniqueBarcodes.addAll(
+                items.stream()
+                        .map(Item::getBarcode)
+                        .collect(Collectors.toSet())
+        );
+        barcodeToName.putAll(
+                items.stream()
+                        .collect(Collectors.toMap(Item::getBarcode, Item::getName))
+        );
+        barcodeToUnitPrice.putAll(
+                items.stream()
+                        .collect(Collectors.toMap(Item::getBarcode, Item::getPrice))
+        );
         total = 0;
     }
 
@@ -26,6 +32,7 @@ public class PosMachine {
     }
 
     private Map<String, Integer> countItems(List<String> barcodes) {
+        // Use treemap to preserve order
         Map<String, Integer> itemCount = new TreeMap<>();
         List<String> validBarcodeList = validBarcodes(barcodes);
         for (String barcode: validBarcodeList) {
@@ -38,6 +45,12 @@ public class PosMachine {
         int subtotal = unitPrice*quantity;
         this.total += subtotal;
         return subtotal;
+    }
+
+    private String createReceiptHeader() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("***<store earning no money>Receipt***\n");
+        return stringBuilder.toString();
     }
 
     private String createReceiptEntry(String barcode, int quantity) {
@@ -55,21 +68,32 @@ public class PosMachine {
         return stringBuilder.toString();
     }
 
-    public String printReceipt(List<String> barcodes) {
-        Map<String, Integer> itemCount = countItems(barcodes);
-
+    private String createReceiptBody(Map<String, Integer> itemCount) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("***<store earning no money>Receipt***\n");
         for (String barcode: itemCount.keySet()) {
             int quantity = itemCount.get(barcode);
             stringBuilder.append(createReceiptEntry(barcode, quantity));
         }
+        return stringBuilder.toString();
+    }
+
+    private String createReceiptSummary() {
+        StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("----------------------\n");
         stringBuilder.append("Total: ");
         stringBuilder.append(this.total);
         stringBuilder.append(" (yuan)\n");
         stringBuilder.append("**********************");
+        return stringBuilder.toString();
+    }
 
+    public String printReceipt(List<String> barcodes) {
+        Map<String, Integer> itemCount = countItems(barcodes);
+        // Construct receipt
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(createReceiptHeader());
+        stringBuilder.append(createReceiptBody(itemCount));
+        stringBuilder.append(createReceiptSummary());
         // Reset POS machine total after creating receipt
         this.total = 0;
         return stringBuilder.toString();
