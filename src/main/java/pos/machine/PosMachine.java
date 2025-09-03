@@ -32,6 +32,19 @@ public class PosMachine {
                 .map(Item::getPrice)
                 .orElse(0);}
 
+    private int getQuantity(List<String> barcodes, String barcode) {
+        int count = 0;
+        for (String item : barcodes) {
+            if (item.equals(barcode)){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private int getSubPrice(int price, int quantity) {
+        return price * quantity;
+    }
 
 
 
