@@ -14,7 +14,9 @@ public class PosMachine {
 
     }
     public String printReceipt(List<String> barcodes) {
-        return null;
+        Map<String,Integer> barcodeMap=conbineSameItemAndCalQuantity(barcodes);
+        Map<String,Item> recordMap=getRecordsFromDB(barcodeMap);
+        return buildReceipt(barcodeMap,recordMap);
     }
 
     private Map<String,Integer> conbineSameItemAndCalQuantity(List<String> barcodes){
