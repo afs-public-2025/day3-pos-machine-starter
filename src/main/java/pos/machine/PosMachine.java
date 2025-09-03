@@ -13,6 +13,14 @@ public class PosMachine {
                 .allMatch(barcode -> itemList.stream()
                         .anyMatch(item -> item.getBarcode().equals(barcode)));
     }
+
+    public Map<String, Integer> createOccureneceMap(List<String> barcodes) {
+        Map<String, Integer> occurrenceMap = new LinkedHashMap<>();
+        for (String barcode : barcodes) {
+            occurrenceMap.put(barcode, occurrenceMap.getOrDefault(barcode, 0) + 1);
+        }
+        return occurrenceMap;
+    }
     public String printReceipt(List<String> barcodes) {
         return null;
     }
