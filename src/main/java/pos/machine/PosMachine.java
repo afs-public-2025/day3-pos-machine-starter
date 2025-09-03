@@ -2,6 +2,9 @@ package pos.machine;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class PosMachine {
     public String printReceipt(List<String> barcodes) {
@@ -9,7 +12,8 @@ public class PosMachine {
     }
 
     private Map<String, Integer> getBarcodesOccurrence(List<String> barcodes) {
-        return null;
+        return barcodes.stream()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.summingInt(e -> 1)));
     }
 
     private boolean isAllItemsExist(Map<String, Integer> barcodeOccurrence) {
