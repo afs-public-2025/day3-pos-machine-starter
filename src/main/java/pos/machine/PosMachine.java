@@ -55,6 +55,8 @@ public class PosMachine {
                 long subtotal = calculateSubtotal(item, quantity);
                 totalPrice += subtotal;
                 receipt.append(generateItemLine(item, quantity, subtotal));
+            } else {
+                throw new IllegalArgumentException("Invalid barcode: " + barcode);
             }
         }
         
@@ -62,7 +64,7 @@ public class PosMachine {
     }
     
     private String generateItemLine(Item item, long quantity, long subtotal) {
-        return String.format("Name: %s, Quantity: %d, Unit price: %d (yuan), Subtotal: %d (yuan)%n",
+        return String.format("Name: %s, Quantity: %d, Unit price: %d (yuan), Subtotal: %d (yuan)\n",
                 item.getName(), quantity, item.getPrice(), subtotal);
     }
     
@@ -71,6 +73,6 @@ public class PosMachine {
     }
     
     private String generateReceiptFooter(long totalPrice) {
-        return String.format("----------------------%nTotal: %d (yuan)%n**********************", totalPrice);
+        return String.format("----------------------\nTotal: %d (yuan)\n**********************", totalPrice);
     }
 }
