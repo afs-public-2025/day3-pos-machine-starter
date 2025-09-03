@@ -30,8 +30,13 @@ public class PosMachine {
         }
         return items;
     }
-    private Integer caculateSubtotalPrice(Item item,Integer quantity){
+    private Integer calculateSubtotalPrice(Item item,int quantity){
         return item.getPrice() * quantity;
+    }
+
+    private String generateReceiptLine(Item item,int quantity,int subtotal){
+        return String.format("Name: %s, Quantity: %d, Unit price: %d (yuan), Subtotal: %d (yuan)",
+                item.getName(), quantity, item.getPrice(), subtotal);
     }
 
 }
