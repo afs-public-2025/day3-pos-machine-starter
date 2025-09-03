@@ -8,9 +8,9 @@ public class Main {
         PosMachine posMachine = new PosMachine();
 
         String[] barcodes = new String[]{
-            "ITEM000000", "ITEM000000", "ITEM000000", "ITEM000000",  // 4个可乐
-            "ITEM000001", "ITEM000001",  // 2个雪碧
-            "ITEM000004", "ITEM000004", "ITEM000004"  // 3个电池
+            "ITEM000000", "ITEM000000", "ITEM000000", "ITEM000000",
+            "ITEM000001", "ITEM000001",
+            "ITEM000004", "ITEM000004", "ITEM000004"
         };
         System.out.println("收据详情：\n");
         System.out.println("***<store earning no money>Receipt***");
