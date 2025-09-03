@@ -22,4 +22,11 @@ public class PosMachine {
                     Collectors.counting()
                 ));
     }
+    
+    private Item findItemByBarcode(String barcode, List<Item> items) {
+        return items.stream()
+                .filter(item -> item.getBarcode().equals(barcode))
+                .findFirst()
+                .orElse(null);
+    }
 }
