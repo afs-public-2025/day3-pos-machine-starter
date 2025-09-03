@@ -1,10 +1,7 @@
 package pos.machine;
 
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.HashSet;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class PosMachine {
     private Set<String> uniqueBarcodes = new HashSet<>();
@@ -22,7 +19,20 @@ public class PosMachine {
         }
     }
 
-    public String printReceipt(List<String> barcodes) {
+    private List<String> validBarcodes(List<String> barcodes) {
+        return barcodes.stream().filter(barcode -> uniqueBarcodes.contains(barcode)).collect(Collectors.toList());
+    }
 
+    private Map<String, Integer> countItems(List<String> barcodes) {
+        Map<String, Integer> itemCount = new HashMap<>();
+        List<String> validBarcodeList = validBarcodes(barcodes);
+        for (String barcode: validBarcodeList) {
+            itemCount.put(barcode, itemCount.getOrDefault(barcode, 0));
+        }
+        return itemCount;
+    }
+
+    public String printReceipt(List<String> barcodes) {
+        return "";
     }
 }
