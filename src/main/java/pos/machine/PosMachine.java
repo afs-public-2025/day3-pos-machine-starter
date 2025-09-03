@@ -8,8 +8,16 @@ import java.util.Map;
 public class PosMachine {
     public String printReceipt(List<String> barcodes) {
         List<ReceiptItem> receiptItems = decodeToItems(barcodes);
-
+        Receipt receipt = calculateCost(receiptItems);
         return null;
+    }
+
+    private Receipt calculateCost(List<ReceiptItem> receiptItems) {
+        int totalPrice = 0;
+        for (ReceiptItem item : receiptItems) {
+            totalPrice += item.getSubTotal();
+        }
+        return new Receipt(totalPrice, receiptItems);
     }
 
     public List<ReceiptItem> decodeToItems(List<String> barcodes) {

@@ -12,4 +12,20 @@ public class ReceiptItem {
         this.unitPrice = unitPrice;
         this.subTotal = subTotal;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public int getSubTotal() {
+        return subTotal;
+    }
+
+    public int getUnitPrice() {
+        return unitPrice;
+    }
 }
