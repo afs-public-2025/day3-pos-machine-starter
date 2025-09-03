@@ -44,6 +44,23 @@ public class PosMachine {
         return itemsInformation;
     }
 
+    private  void calculateSubtotal(List<ItemInformation> itemsInformation){
+        for(ItemInformation itemInformation: itemsInformation){
+            itemInformation.setSubtotal(itemInformation.getItem().getPrice()*itemInformation.getQuantity());
+
+
+        }
+    }
+
+    private int calculateTotal(List<ItemInformation> itemsInformation){
+        int total=0;
+        for(ItemInformation itemInformation: itemsInformation){
+            total+=itemInformation.getSubtotal();
+        }
+        return total;
+    }
+
+
 
     private static  class ItemInformation {
         private final Item item;
