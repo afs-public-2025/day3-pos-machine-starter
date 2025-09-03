@@ -26,10 +26,10 @@ public class PosMachine {
     }
 
     private Map<String, Integer> countItems(List<String> barcodes) {
-        Map<String, Integer> itemCount = new HashMap<>();
+        Map<String, Integer> itemCount = new TreeMap<>();
         List<String> validBarcodeList = validBarcodes(barcodes);
         for (String barcode: validBarcodeList) {
-            itemCount.put(barcode, itemCount.getOrDefault(barcode, 0));
+            itemCount.put(barcode, itemCount.getOrDefault(barcode, 0)+1);
         }
         return itemCount;
     }
@@ -64,11 +64,14 @@ public class PosMachine {
             int quantity = itemCount.get(barcode);
             stringBuilder.append(createReceiptEntry(barcode, quantity));
         }
-        stringBuilder.append("----------------------");
+        stringBuilder.append("----------------------\n");
         stringBuilder.append("Total: ");
         stringBuilder.append(this.total);
         stringBuilder.append(" (yuan)\n");
         stringBuilder.append("**********************");
+
+        // Reset POS machine total after creating receipt
+        this.total = 0;
         return stringBuilder.toString();
     }
 }
