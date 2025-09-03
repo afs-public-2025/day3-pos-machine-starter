@@ -1,11 +1,12 @@
 package pos.machine;
 
-
+import java.util.stream.Collectors;
 import java.util.*;
 import java.util.List;
 
 public class PosMachine {
     public String printReceipt(List<String> barcodes) {
+
         return null;
 
     }
@@ -21,5 +22,54 @@ public class PosMachine {
         return barcodeCountMap;
     }
 
+    private List<ItemInformation> getItemsInformation(Map<String, Integer> barcodeCountMap,List<Item> allItems){
+        List<ItemInformation> itemsInformation=new ArrayList<>();
+        Set<String> knownBarcodes = allItems.stream()
+                .map(Item::getBarcode)
+                .collect(Collectors.toSet());
+
+        barcodeCountMap.keySet().forEach(barcode -> {
+            if (!knownBarcodes.contains(barcode)) {
+                throw new IllegalArgumentException("Item not found for barcode: " + barcode);
+            }
+        });
+
+        for (Item item : allItems) {
+            String barcode = item.getBarcode();
+            if (barcodeCountMap.containsKey(barcode)) {
+                int quantity = barcodeCountMap.get(barcode);
+                itemsInformation.add(new ItemInformation(item, quantity));
+            }
+        }
+        return itemsInformation;
+    }
+
+
+    private static  class ItemInformation {
+        private final Item item;
+        private final int quantity;
+        private int subtotal;
+
+        public ItemInformation(Item ITEM, int QUANTITY) {
+            this.item = ITEM;
+            this.quantity = QUANTITY;
+        }
+
+        public Item getItem() {
+            return item;
+        }
+
+        public int getQuantity() {
+            return quantity;
+        }
+
+        public int getSubtotal() {
+            return subtotal;
+        }
+
+        public void setSubtotal(int subtotal) {
+            this.subtotal = subtotal;
+        }
+    }
 }
 
