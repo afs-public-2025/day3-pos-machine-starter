@@ -61,6 +61,10 @@ public class PosMachine {
     }
 
     public String printReceipt(List<String> barcodes) {
-        return null;
+        if (!checkAllBarcodesValid(barcodes)){
+            throw new RuntimeException("There are invalid barcode(s).");
+        }
+        Map<String, Integer> occurrenceMap = createOccureneceMap(barcodes);
+        return transformOccurenceMapToReceipt(occurrenceMap);
     }
 }
