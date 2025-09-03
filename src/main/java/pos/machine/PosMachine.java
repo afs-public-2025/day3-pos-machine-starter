@@ -1,6 +1,7 @@
 package pos.machine;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class PosMachine {
     private static final Map<String,Item> db=new HashMap<>();
@@ -25,17 +26,22 @@ public class PosMachine {
     }
 
     private Map<String,Integer> conbineSameItemAndCalQuantity(List<String> barcodes){
-        Map<String,Integer> mp=new LinkedHashMap<>();
-        for(String barcode:barcodes){
-            mp.put(barcode,mp.getOrDefault(barcode,0)+1);
-        }
+        Map<String,Integer> mp;
+        mp=barcodes.stream()
+                .collect(Collectors.toMap(
+                        barcode -> barcode,
+                        barcode -> 1,
+                        (existing, newValue) -> existing + 1
+                ));
         return mp;
     }
     private Map<String,Item> getRecordsFromDB(Map<String,Integer> barcodeMap){
-        Map<String,Item> ans=new LinkedHashMap<>();
-        for(String barcode:barcodeMap.keySet()){
-            ans.put(barcode,getRecordFromDB(barcode));
-        }
+        Map<String,Item> ans;
+        ans = barcodeMap.keySet().stream()
+                .collect(Collectors.toMap(
+                        barcode -> barcode,
+                        this::getRecordFromDB
+                ));
         return ans;
     }
     private Item getRecordFromDB(String barcode){
@@ -46,10 +52,9 @@ public class PosMachine {
     private String buildReceipt(Map<String,Integer> barcodeMap,Map<String,Item> recordMap){
         StringBuilder ans=new StringBuilder();
         ans.append("***<store earning no money>Receipt***\n");
-        for(String barcode:barcodeMap.keySet()){
-            String tmp=buildReceiptLine(barcodeMap.get(barcode),recordMap.get(barcode));
-            ans.append(tmp);
-        }
+        ans.append(barcodeMap.keySet().stream()
+                .map(barcode -> buildReceiptLine(barcodeMap.get(barcode), recordMap.get(barcode)))
+                .collect(Collectors.joining()));
         ans.append("----------------------\n");
         ans.append(calTotalPriceAndBuildTotalLine(barcodeMap,recordMap));
         ans.append("**********************\n");
@@ -59,10 +64,13 @@ public class PosMachine {
         return "Name: "+record.getName()+", Quantity: "+barcodeTimes+", Unit price: "+record.getPrice()+", Subtotal: "+(record.getPrice()*barcodeTimes)+" (yuan)\n";
     }
     private String calTotalPriceAndBuildTotalLine(Map<String,Integer> barcodeMap,Map<String,Item> recordMap){
-        int total=0;
-        for(String barcode:barcodeMap.keySet()){
-            total+=recordMap.get(barcode).getPrice()*barcodeMap.get(barcode);
-        }
+        int total= barcodeMap.entrySet().stream()
+                .mapToInt(entry -> {
+                    String barcode = entry.getKey();
+                    int quantity = entry.getValue();
+                    return recordMap.get(barcode).getPrice() * quantity;
+                })
+                .sum();
         return "Total: "+total+" (yuan)\n";
     }
 }
