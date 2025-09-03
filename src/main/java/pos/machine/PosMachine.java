@@ -10,13 +10,21 @@ public class PosMachine {
         List<ReceiptItem> receiptItems = decodeToItems(barcodes);
         Receipt receipt = calculateCost(receiptItems);
         String receiptString = renderReceipt(receipt);
-        return null;
+        return receiptString;
     }
 
     private String renderReceipt(Receipt receipt) {
         String itemsReceipt = generateItemsReceipt(receipt);
+        String receiptString = generateReceipt(itemsReceipt,receipt);
+        return receiptString;
+    }
 
-        return null;
+    private String generateReceipt(String itemsReceipt, Receipt receipt) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(itemsReceipt);
+        sb.append(String.format("Total: %d (yuan)\n", receipt.getTotalPrice()));
+        sb.append("**********************");
+        return sb.toString();
     }
 
     private String generateItemsReceipt(Receipt receipt) {
