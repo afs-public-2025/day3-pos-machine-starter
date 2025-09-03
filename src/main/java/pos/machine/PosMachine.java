@@ -1,11 +1,13 @@
 package pos.machine;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PosMachine {
     public String printReceipt(List<String> barcodes) {
@@ -53,6 +55,8 @@ public class PosMachine {
     }
 
     private int calculateTotalAmount(Map<String, Integer> barcodeOccurrence, Item[] items) {
-        return -1;
+        return Stream.of(items)
+                .mapToInt(item -> item.getPrice() * barcodeOccurrence.get(item.getBarcode()))
+                .sum();
     }
 }
