@@ -25,6 +25,12 @@ public class PosMachine {
     public int getSubtotal(Item item, int quantity) {
         return item.getPrice() * quantity;
     }
+
+    public String getItemDisplayLine(Item item, int quantity, int subtotal) {
+        return String.format("Name: %s, Quantity: %d, Unit price: %d (yuan), Subtotal: %d (yuan)\n",
+                item.getName(), quantity, item.getPrice(), subtotal);
+    }
+
     public Item getItemByBarcode(String barcode) {
         return itemList.stream()
                 .filter(item -> item.getBarcode().equals(barcode))
