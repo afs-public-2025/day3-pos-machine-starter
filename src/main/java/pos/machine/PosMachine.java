@@ -22,6 +22,9 @@ public class PosMachine {
         return occurrenceMap;
     }
 
+    public int getSubtotal(Item item, int quantity) {
+        return item.getPrice() * quantity;
+    }
     public Item getItemByBarcode(String barcode) {
         return itemList.stream()
                 .filter(item -> item.getBarcode().equals(barcode))
