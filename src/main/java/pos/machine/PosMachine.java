@@ -26,7 +26,39 @@ public class PosMachine {
     }
 
     private static String createReceipt(Map<String, Item> itemsMap, Map<String, Integer> itemCount) {
-        return null;
+        StringBuilder receipt = new StringBuilder();
+        receipt.append("***<store earning no money>Receipt***\n");
+
+        int total = calculateTotal(itemsMap, itemCount);
+
+        for (String barcode : itemCount.keySet()) {
+            Item item = itemsMap.get(barcode);
+            if (item != null) {
+                int quantity = itemCount.get(barcode);
+                int subtotal = item.getPrice() * quantity;
+                receipt.append(String.format("Name: %s, Quantity: %d, Unit price: %d (yuan), Subtotal: %d (yuan)\n",
+                        item.getName(), quantity, item.getPrice(), subtotal));
+            }
+        }
+
+        receipt.append("----------------------\n");
+        receipt.append(String.format("Total: %d (yuan)\n", total));
+        receipt.append("**********************");
+
+        return receipt.toString();
+    }
+    private static int calculateTotal(Map<String, Item> itemsMap, Map<String, Integer> itemCount) {
+        int total = 0;
+
+        for (String barcode : itemCount.keySet()) {
+            Item item = itemsMap.get(barcode);
+            if (item != null) {
+                int quantity = itemCount.get(barcode);
+                total += item.getPrice() * quantity;
+            }
+        }
+
+        return total;
     }
 
     private static Map<String, Integer> countItems(List<String> barcodes) {
