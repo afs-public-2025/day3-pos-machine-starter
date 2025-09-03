@@ -22,7 +22,8 @@ public class PosMachine {
     }
 
     private Map<String, Integer> countItems(List<String> barcodes) {
-        Map<String, Integer> itemCounts = new HashMap<>();
+        // use LinkedMap to keep items order
+        Map<String, Integer> itemCounts = new LinkedHashMap<>();
         barcodes.forEach(barcode -> itemCounts.put(barcode, itemCounts.getOrDefault(barcode, 0) + 1));
         return itemCounts;
     }
@@ -69,7 +70,7 @@ public class PosMachine {
                 item.getName(), item.getQuantity(), item.getUnitPrice(), item.getSubtotal()
         )));
         receipt.append("----------------------\n").append(String.format("Total: %d (yuan)\n", total))
-                .append("**********************\n");
+                .append("**********************");
         return receipt.toString();
     }
 
