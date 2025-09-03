@@ -8,7 +8,7 @@ public class PosMachine {
         List<ItemList> itemLists = new ArrayList<>();
         countItems(barcodes, itemLists);
         calculatePrice(itemLists);
-        return null;
+        return buildBill(itemLists);
     }
 
     public void countItems(List<String> barcodes, List<ItemList> itemLists) {
@@ -41,5 +41,24 @@ public class PosMachine {
             itemList.setSubtotal(itemList.getPrice() * itemList.getCount());
             System.out.println(itemList.getSubtotal());
         }
+    }
+
+    public String buildBill(List<ItemList> itemLists) {
+        StringBuilder bill = new StringBuilder();
+        bill.append("***<store earning no money>Receipt***\n");
+        int total = 0;
+        for(ItemList itemList : itemLists) {
+            bill.append("Name: ").append(itemList.getName())
+                    .append(", Quantity: ").append(itemList.getCount())
+                    .append(", Unit price: ").append(itemList.getPrice())
+                    .append(" (yuan), Subtotal: ").append(itemList.getSubtotal())
+                    .append(" (yuan)\n");
+            total += itemList.getSubtotal();
+        }
+        bill.append("----------------------\n")
+                .append("Total: ").append(total).append(" (yuan)\n")
+                .append("**********************");
+        System.out.println(bill);
+        return bill.toString();
     }
 }
