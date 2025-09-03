@@ -46,6 +46,35 @@ public class PosMachine {
         return price * quantity;
     }
 
+    private int getTotalPrice(List<String> barcodes) {
+        int total = 0;
+        List<String> uniqueBarcodes = distinct(barcodes);
+        for (String barcode : uniqueBarcodes) {
+            int quantity = getQuantity(barcodes, barcode);
+            int price = getPrice(barcode);
+            total += getSubPrice(price, quantity);
+        }
+        return total;
+    }
+
+    private List<String> distinct(List<String> barcodes) {
+        List<String> uniqueBarcodes = new ArrayList<>();
+        for (String barcode : barcodes) {
+            if (!uniqueBarcodes.contains(barcode)) {
+                uniqueBarcodes.add(barcode);
+            }
+        }
+        return uniqueBarcodes;
+    }
+
+    private String generateLine(List<String> barcodes, String barcode) {
+        int quantity = getQuantity(barcodes, barcode);
+        int price = getPrice(barcode);
+        String name = getName(barcode);
+        int subTotal = getSubPrice(price, quantity);
+        return String.format("Name: %s, Quantity: %d, Unit price: %d (yuan), Subtotal: %d (yuan)\n",
+                name, quantity, price, subTotal);
+    }
 
 
 }
