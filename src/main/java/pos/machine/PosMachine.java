@@ -8,6 +8,9 @@ public class PosMachine {
         // 从DB加载所有商品
         List<Item> allItems = ItemsLoader.loadAllItems();
 
+        // 对输入进行校验，不合法barcode抛异常
+        validateBarcodes(barcodes, allItems);
+
         // 所有商品计数
         Map<String, Integer> countedItems = countItems(barcodes);
 
@@ -19,6 +22,19 @@ public class PosMachine {
 
         // 转换收据列表为字符串
         return generateReceipt(receiptItems, total);
+    }
+
+    private void validateBarcodes(List<String> barcodes, List<Item> allItems) {
+        List<String> validBarcodes = allItems.stream()
+                .map(Item::getBarcode)
+                .collect(Collectors.toList());
+
+        // 检查每个输入的条形码是否有效
+        for (String barcode : barcodes) {
+            if (!validBarcodes.contains(barcode)) {
+                throw new IllegalArgumentException("Invalid barcode: " + barcode);
+            }
+        }
     }
 
     private Map<String, Integer> countItems(List<String> barcodes) {
