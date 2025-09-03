@@ -27,5 +27,19 @@ public class PosMachine {
         return receipt;
     }
         return null;
+    public void countItems(List<String> barcodes) throws Exception {
+        for (String barcode : barcodes) {
+
+            if (!isValid(barcode)) {
+                throw new Exception("Invalid barcode!");
+            }
+
+            if (itemsMap.containsKey(barcode)){
+                itemsMap.compute(barcode, (k, currentValue) -> currentValue + 1);
+            } else {
+                itemsMap.put(barcode, 1);
+            }
+        }
+    }
     }
 }
