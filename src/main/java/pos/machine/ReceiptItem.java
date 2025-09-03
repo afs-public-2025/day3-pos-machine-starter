@@ -1,22 +1,31 @@
 package pos.machine;
 
 public class ReceiptItem {
-    private Item item;
+    private String name;
+    private int price;
     private int quantity;
     private int subtotal;
 
-    public ReceiptItem(Item item,int quantity,int subtotal) {
-        this.item = item;
+    public ReceiptItem(String name, int price, int quantity, int subtotal) {
+        this.name = name;
+        this.price = price;
         this.quantity = quantity;
         this.subtotal = subtotal;
     }
-
-    public Item getItem() {
-        return item;
+    public String getName() {
+        return name;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     public int getQuantity() {
