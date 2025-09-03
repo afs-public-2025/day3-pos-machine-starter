@@ -8,6 +8,16 @@ import static pos.machine.ItemsLoader.loadAllItems;
 
 public class PosMachine {
 
+    public String printReceipt(List<String> barcodes) {
+        StringBuilder receipt = new StringBuilder();
+        receipt.append(generateHeader());
+        List<String> uniqueBarcodes = distinct(barcodes);
+        for (String barcode : uniqueBarcodes) {
+            receipt.append(generateLine(barcodes, barcode));
+        }
+        receipt.append(generateFooter(getTotalPrice(barcodes)));
+        return receipt.toString();
+    }
 
     private String generateHeader() {
         return "***<store earning no money>Receipt ***\n";
