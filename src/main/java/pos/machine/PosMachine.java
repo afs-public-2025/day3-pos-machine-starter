@@ -39,10 +39,14 @@ public class PosMachine {
     private String buildReceipt(Map<String,Integer> barcodeMap,Map<String,Item> recordMap){
         return null;
     }
-    private String buildReceiptLine(Map<String,Integer> barcodeMap,Map<String,Item> recordMap){
-        return null;
+    private String buildReceiptLine(Integer barcodeTimes,Item record){
+        return "Name: "+record.getName()+", Quantity: "+barcodeTimes+", Unit price: "+record.getPrice()+", Subtotal: "+(record.getPrice()*barcodeTimes)+" (yuan)";
     }
     private String calTotalPriceAndBuildTotalLine(Map<String,Integer> barcodeMap,Map<String,Item> recordMap){
-        return null;
+        int total=0;
+        for(String barcode:barcodeMap.keySet()){
+            total+=recordMap.get(barcode).getPrice()*barcodeMap.get(barcode);
+        }
+        return "Total: "+total+" (yuan)";
     }
 }
