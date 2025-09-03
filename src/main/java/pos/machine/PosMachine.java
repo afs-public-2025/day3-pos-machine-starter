@@ -1,10 +1,9 @@
 package pos.machine;
 
-import java.util.List;
 import java.util.*;
 
 public class PosMachine {
-    public String printReceipt(List<String> barcodes) {
+
     Map<String, Integer> itemsMap = new HashMap<>();
     ItemsLoader db = new ItemsLoader();
     List<Item> dbItems = db.loadAllItems();
@@ -26,7 +25,7 @@ public class PosMachine {
 
         return receipt;
     }
-        return null;
+
     public void countItems(List<String> barcodes) throws Exception {
         for (String barcode : barcodes) {
 
