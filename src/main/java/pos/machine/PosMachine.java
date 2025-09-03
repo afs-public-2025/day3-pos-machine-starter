@@ -6,7 +6,12 @@ import java.util.stream.Collectors;
 
 public class PosMachine {
     public String printReceipt(List<String> barcodes) {
-        return null;
+        Map<String, Integer> barcodeOccurrence = getBarcodesOccurrence(barcodes);
+        if(!isAllItemsExist(barcodeOccurrence)) {
+            throw new Error("Some barcode does not exist in database");
+        }
+        List<Item> items = retrieveItemsInfo(barcodeOccurrence);
+        return buildReceipt(barcodeOccurrence, items);
     }
 
     private Map<String, Integer> getBarcodesOccurrence(List<String> barcodes) {
