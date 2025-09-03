@@ -41,5 +41,23 @@ public class PosMachine {
             }
         }
     }
+
+    public boolean isValid(String barcode){
+        return dbItems.stream().anyMatch(item -> item.getBarcode().equals(barcode));
+    }
+
+    public String generateReceiptPerItem(String barcode, Item item, int count){
+        String itemRow = "";
+        itemRow += "Name: " + item.getName() + ", Quantity: " + count + ", Unit price: " + item.getPrice() + "(yuan), Subtotal: " + calculateSubTotal(item.getPrice(), count) + "(yuan)\n";
+        return itemRow;
+    }
+
+    public int calculateSubTotal(int price, int count){
+        calculateTotal(price*count);
+        return price*count;
+    }
+
+    public void calculateTotal(int subTotal){
+        total += subTotal;
     }
 }
