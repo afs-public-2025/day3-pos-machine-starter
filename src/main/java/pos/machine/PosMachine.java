@@ -25,10 +25,16 @@ public class PosMachine {
         return mp;
     }
     private Map<String,Item> getRecordsFromDB(Map<String,Integer> barcodeMap){
-        return null;
+        Map<String,Item> ans=new HashMap<>();
+        for(String barcode:barcodeMap.keySet()){
+            ans.put(barcode,getRecordFromDB(barcode));
+        }
+        return ans;
     }
     private Item getRecordFromDB(String barcode){
-        return null;
+        Item item=db.get(barcode);
+        if (item==null) throw new RuntimeException();
+        return item;
     }
     private String buildReceipt(Map<String,Integer> barcodeMap,Map<String,Item> recordMap){
         return null;
