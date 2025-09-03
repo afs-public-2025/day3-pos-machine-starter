@@ -39,4 +39,8 @@ public class PosMachine {
         return String.format("Name: %s, Quantity: %d, Unit price: %d (yuan), Subtotal: %d (yuan)%n",
                 item.getName(), quantity, item.getPrice(), subtotal);
     }
+    
+    private String generateReceiptHeader() {
+        return "***<store earning no money>Receipt***\n";
+    }
 }
