@@ -18,18 +18,25 @@ public class PosMachine {
     }
 
     private boolean isAllItemsExist(Map<String, Integer> barcodeOccurrence) {
+        // Get all item records for database
         List<Item> itemRecords = ItemsLoader.loadAllItems();
 
         Set<String> existingBarcodes = itemRecords.stream()
                 .map(Item::getBarcode)
                 .collect(Collectors.toSet());
 
+        // Check if all barcode scanned exists in the database
         return barcodeOccurrence.keySet().stream()
                 .allMatch(existingBarcodes::contains);
     }
 
-    private Item[] retrieveItemsInfo(Map<String, Integer> barcodeOccurrence) {
-        return null;
+    private List<Item> retrieveItemsInfo(Map<String, Integer> barcodeOccurrence) {
+        // Get all item records for database
+        List<Item> itemRecords = ItemsLoader.loadAllItems();
+
+        // Filter out items with barcode scanned
+        return itemRecords.stream()
+                .filter(record -> barcodeOccurrence.containsKey(record.getBarcode())).toList();
     }
 
     private String buildReceipt(Map<String, Integer> barcodeOccurrence, Item[] items) {
