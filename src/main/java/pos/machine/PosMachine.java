@@ -33,13 +33,11 @@ public class PosMachine {
                 }
             }
         }
-        System.out.println(itemLists.size());
     }
 
     public void calculatePrice(List<ItemList> itemLists) {
         for(ItemList itemList : itemLists) {
             itemList.setSubtotal(itemList.getPrice() * itemList.getCount());
-            System.out.println(itemList.getSubtotal());
         }
     }
 
@@ -58,7 +56,6 @@ public class PosMachine {
         bill.append("----------------------\n")
                 .append("Total: ").append(total).append(" (yuan)\n")
                 .append("**********************");
-        System.out.println(bill);
         return bill.toString();
     }
 }
