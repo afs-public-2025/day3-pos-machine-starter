@@ -33,4 +33,10 @@ public class PosMachine {
     private long calculateSubtotal(Item item, long quantity) {
         return quantity * item.getPrice();
     }
+
+    
+    private String generateItemLine(Item item, long quantity, long subtotal) {
+        return String.format("Name: %s, Quantity: %d, Unit price: %d (yuan), Subtotal: %d (yuan)%n",
+                item.getName(), quantity, item.getPrice(), subtotal);
+    }
 }
