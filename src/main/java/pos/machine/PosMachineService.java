@@ -6,16 +6,18 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class PosMachineService {
-    public Map<String, ReceiptItem> getReceiptItemMapByBarcodes(List<String> barcodes){
-        Map<String, Item> itemMap = getItemMap(barcodes);
+    public Map<String, ReceiptItem> buildReceiptItemMap(List<String> barcodes){
+        Map<String, Item> itemMap = getItemMapByBarcodes(barcodes);
         isItemExist(itemMap,barcodes);
         return buildReceiptItemMap(itemMap, barcodes);
     }
-    public Map<String, Item> getItemMap(List<String> barcodes){
+    public Map<String, Item> getItemMapByBarcodes(List<String> barcodes){
         List<Item> items = ItemsLoader.loadAllItems();
         Map<String, Item> itemMap = new HashMap<>();
         for (Item item : items) {
-            itemMap.put(item.getBarcode(), item);
+            if (barcodes.contains(item.getBarcode())) {
+                itemMap.put(item.getBarcode(), item);
+            }
         }
         return itemMap;
     }

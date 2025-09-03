@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 public class PosMachine {
     public String printReceipt(List<String> barcodes) {
         PosMachineService posMachineService = new PosMachineService();
-        Map<String, ReceiptItem> receiptItemMap = posMachineService.getReceiptItemMapByBarcodes(barcodes);
+        Map<String, ReceiptItem> receiptItemMap = posMachineService.buildReceiptItemMap(barcodes);
         String s = posMachineService.buildReceipt(receiptItemMap);
         System.out.println(s);
         return s;
