@@ -3,8 +3,9 @@ package pos.machine;
 public class ReceiptItem {
     private Item item;
     private int quantity = 0;
-    ReceiptItem(Item item){
+    ReceiptItem(Item item,int quantity){
         setItem(item);
+        setQuantity(quantity);
     }
     public String getName() {
         return item.getName();
