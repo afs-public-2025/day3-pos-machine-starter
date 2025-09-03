@@ -3,8 +3,10 @@ package pos.machine;
 import java.util.*;
 
 public class PosMachine {
-    public String printReceipt(List<String> barcodes) {
-        return null;
+    public String printReceipt(List<String> barcodes) throws Exception {
+        Map<String, Integer> quantities = getQuantities(barcodes);
+        List<Item> items = getItemsInfo(quantities);
+        return createReceipt(quantities, items);
     }
 
     public Map<String, Integer> getQuantities(List<String> barcodes) {
@@ -20,7 +22,6 @@ public class PosMachine {
         List<String> barcodes = new ArrayList<>(itemQuantity.keySet());
         Collections.sort(barcodes);
         for (String barcode: barcodes) {
-            System.out.println(barcode);
             items.add(getItem(barcode));
         }
         return items;
@@ -38,11 +39,12 @@ public class PosMachine {
 
     public String createReceipt(Map<String, Integer> itemQuantity, List<Item> items) {
         StringBuilder receipt = new StringBuilder();
-        receipt.append("***<store earning no money>Receipt***");
-        receipt.append("----------------------");
+        receipt.append("***<store earning no money>Receipt***\n");
+        receipt.append("----------------------\n");
         for (Item item: items) {
-            receipt.append(getReceiptEntry(item, itemQuantity.get(item.getName())));
+            receipt.append(getReceiptEntry(item, itemQuantity.get(item.getBarcode())));
         }
+        receipt.append(String.format("Total: %d (yuan)\n", getTotal(itemQuantity, items)));
         receipt.append("**********************");
         return receipt.toString();
     }
@@ -58,7 +60,7 @@ public class PosMachine {
     public int getTotal(Map<String, Integer> itemQuantity, List<Item> items) {
         int total = 0;
         for (Item item: items) {
-            total += getSubtotal(item, itemQuantity.get(item.getName()));
+            total += getSubtotal(item, itemQuantity.get(item.getBarcode()));
         }
         return total;
     }
