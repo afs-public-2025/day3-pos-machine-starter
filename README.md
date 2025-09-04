@@ -1,5 +1,5 @@
 # Requirement
-
+bb
 A cash register (POS) system is used in the store for settlement of the store. This cashier will settle and print the receipt (Receipt) according to the item(Item) in the customer's shopping cart (Cart) at the time of settlement.
 
 We need to implement a function called printReceipt, which can input the data of the specified format as a parameter and then output the text of the receipt.
