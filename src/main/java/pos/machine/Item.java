@@ -1,5 +1,6 @@
 package pos.machine;
 
+
 public class Item {
     private final String barcode;
     private final String name;
