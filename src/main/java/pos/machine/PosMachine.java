@@ -40,10 +40,10 @@ public class PosMachine {
     public String createReceipt(Map<String, Integer> itemQuantity, List<Item> items) {
         StringBuilder receipt = new StringBuilder();
         receipt.append("***<store earning no money>Receipt***\n");
-        receipt.append("----------------------\n");
         for (Item item: items) {
             receipt.append(getReceiptEntry(item, itemQuantity.get(item.getBarcode())));
         }
+        receipt.append("----------------------\n");
         receipt.append(String.format("Total: %d (yuan)\n", getTotal(itemQuantity, items)));
         receipt.append("**********************");
         return receipt.toString();
